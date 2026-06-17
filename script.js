@@ -40,18 +40,64 @@ if (hireBtn) {
     hireBtn.style.boxShadow = "none";
   });
 }
+
+/* ===============================
+   HERO TEXT ANIMATION (FIXED)
+   Only animates "Hi, I'm"
+   Does NOT touch name span
+================================ */
+
 document.addEventListener("DOMContentLoaded", () => {
-  const title = document.querySelector(".hero-title");
-  const text = title.innerText;
-  title.innerHTML = "";
+  const heroText = document.querySelector(".hero-text");
+
+  if (!heroText) return;
+
+  const text = heroText.innerText;
+  heroText.innerHTML = "";
 
   text.split(" ").forEach((word, index) => {
     const span = document.createElement("span");
     span.innerText = word + " ";
-    span.style.opacity = 0;
+    span.style.opacity = "0";
     span.style.display = "inline-block";
-    span.style.animation = `fadeUp 0.6s ease forwards`;
+    span.style.animation = "fadeUp 0.6s ease forwards";
     span.style.animationDelay = `${index * 0.12}s`;
-    title.appendChild(span);
+    heroText.appendChild(span);
+  });
+});
+const text = "Kashish Kamra";
+let i = 0;
+
+function typeEffect() {
+  if (i < text.length) {
+    document.querySelector(".typing-name").textContent += text.charAt(i);
+    i++;
+    setTimeout(typeEffect, 90);
+  }
+}
+
+typeEffect();
+const sections = document.querySelectorAll("section");
+const navLinks = document.querySelectorAll(".nav-links a");
+
+window.addEventListener("scroll", () => {
+
+  let current = "";
+
+  sections.forEach((section) => {
+    const sectionTop = section.offsetTop - 120;
+    const sectionHeight = section.clientHeight;
+
+    if (pageYOffset >= sectionTop) {
+      current = section.getAttribute("id");
+    }
+  });
+
+  navLinks.forEach((link) => {
+    link.classList.remove("active");
+
+    if (link.getAttribute("href").includes(current)) {
+      link.classList.add("active");
+    }
   });
 });
